@@ -1,19 +1,38 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import TitleDescription from './components/TitleDesc.vue'
+import AsyncImage from './components/AsyncImage.vue';
+import GuessInput from './components/GuessInput.vue';
+import { useGuessStore } from './stores/guesses';
+const store = useGuessStore();
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+      <TitleDescription />
     </div>
   </header>
 
   <main>
-    <TheWelcome />
+    <GuessInput />
+    <Transition mode="out-in">
+      <KeepAlive>
+        <Suspense>
+          <AsyncImage :guesses="0" />
+          <template #fallback>
+            Loading...
+          </template>
+        </Suspense>
+      </KeepAlive>
+    </Transition>
+    <Teleport to="body">
+      <div v-if="store.isWinState !== undefined" class="modal">
+        <p v-if="store.isWinState">Winner!</p>
+        <p v-if="!store.isWinState">Out of guesses!</p>
+      </div>
+    </Teleport>
   </main>
 </template>
 
@@ -43,5 +62,16 @@ header {
     place-items: flex-start;
     flex-wrap: wrap;
   }
+}.modal {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: 5%;
+  left: auto;
+  border-radius: calc(var(--section-gap) / 4);
+  background: var(--color-background-soft);
+  display: flex;
+  flex-direction: column;
+  place-items: center;
 }
 </style>
