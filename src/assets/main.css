@@ -1,16 +1,22 @@
 @import './base.css';
-
 #app {
+  display: flex;
+  flex-direction: column;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
+  place-items: center;
+  gap: 4rem;
 }
 
-a,
-.green {
+.title {
+  color: var(--color-heading);
+  font-family: 'Rubik Glitch', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
   padding: 3px;
 }
@@ -25,11 +31,26 @@ a,
   body {
     display: flex;
     place-items: center;
+    align-items: center;
   }
 
   #app {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 4rem;
     padding: 0 2rem;
   }
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+button{
+  color: var(--color-text);
+  padding: .25rem;
+  background: var(--color-background-mute);
+  border: var(--color-border);
+  cursor: pointer;
 }
