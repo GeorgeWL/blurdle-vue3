@@ -6,10 +6,8 @@ import { useGuessStore } from '@/stores/guesses';
 
 const store = useGuessStore()
 const data: ImageResponse = await getPexelsPhoto(store.nounOfTheDay)
-const { guesses } = defineProps({
-  guesses: Number
-})
-const altText = computed(() => guesses === 10 ? (data as PhotoSummary).alt : `clue-${guesses}`)
+
+const altText = computed(() => store.isWinState !== undefined ? (data as PhotoSummary).alt : `clue-${store.count}`)
 
 </script>
 
