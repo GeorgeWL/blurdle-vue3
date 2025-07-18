@@ -3,7 +3,7 @@ import { createClient, type ErrorResponse, type Photo, type PhotosWithTotalResul
 const PEXELS_KEY = import.meta.env.VITE_PEXELS_KEY
 const client = createClient(PEXELS_KEY)
 
-interface PhotoSummary {
+export interface PhotoSummary {
   src: string
   photographer: {
     name: string
@@ -11,7 +11,7 @@ interface PhotoSummary {
   }
   alt?: string
 }
-type ImageResponse = PhotoSummary | ErrorResponse
+export type ImageResponse = PhotoSummary | ErrorResponse
 
 const parsePhotoResponse = (photo: Photo): PhotoSummary => ({
   photographer: {
@@ -22,17 +22,14 @@ const parsePhotoResponse = (photo: Photo): PhotoSummary => ({
   alt: photo.alt ?? undefined,
 })
 
-export default async function fetchPhotoData(): Promise<ImageResponse> {
-  try {
-    const response = (await client.photos.search({
-      query: 'apple',
-      per_page: 1,
-      page: 1,
-      orientation: 'square',
-    })) as PhotosWithTotalResults
-
+export default async function fetchPhotoData(nounOfTheDay: string): Promise<ImageResponse> {
+  const response = (await client.photos.search({
+    query: nounOfTheDay,
+    per_page: 1,
+    page: 1,
+    orientation: 'square',
+  })) as PhotosWithTotalResults
+  if (response.total_results > 0) {
     return parsePhotoResponse(response.photos[0])
-  } catch (err) {
-    throw err
-  }
+  } else return { error: 'no photos found' }
 }
