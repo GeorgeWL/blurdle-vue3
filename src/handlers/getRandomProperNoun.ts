@@ -1,3 +1,4 @@
+// TODO: change to a list of common proper nouns
 const nouns = `memory
 pin
 steel

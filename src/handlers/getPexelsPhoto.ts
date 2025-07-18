@@ -21,7 +21,8 @@ const parsePhotoResponse = (photo: Photo): PhotoSummary => ({
   src: photo.src.original,
   alt: photo.alt ?? undefined,
 })
-
+// TODO: think I'll remove this and manually grab the photos/images
+// often too abstract - like chain showing a necklace, or pin showing a entire posterboard with pins in it
 export default async function fetchPhotoData(nounOfTheDay: string): Promise<ImageResponse> {
   const response = (await client.photos.search({
     query: nounOfTheDay,
